@@ -24,6 +24,24 @@
                 <!-- Form Section -->
                 <form action="{{ route('users.store') }}" method="POST">
                     @csrf
+                    
+                    <!-- Error Messages -->
+                    @if ($errors->any())
+                        <div class="p-4 bg-red-50 border-l-4 border-red-500 dark:bg-red-400/10 dark:border-red-400">
+                            <div class="flex items-center gap-2 text-red-700 dark:text-red-400">
+                                <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-sm font-medium">Please fix the following errors:</p>
+                            </div>
+                            <ul class="mt-2 ml-5 list-disc text-sm text-red-700 dark:text-red-400">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="space-y-6 p-8">
                         <!-- Name Field -->
                         <div>
