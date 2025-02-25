@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/livewire-starter-kit",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
+    "description": "advanced-livewire-starter-kit",
     "keywords": [
         "laravel",
         "framework"
@@ -13,7 +13,7 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.0",
-        "livewire/volt": "^1.6.7"
+        "livewire/volt": "^1.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -71,6 +71,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
