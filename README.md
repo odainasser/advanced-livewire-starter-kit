@@ -7,6 +7,82 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+# Advanced Livewire Starter Kit
+
+A modern Laravel application starter kit featuring Laravel Livewire, Tailwind CSS, and Alpine.js.
+
+[![Demo](https://img.shields.io/badge/Demo-View%20Live-blue)](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
+
+## Demo
+
+Check out the live demo: [Advanced Livewire Starter Kit Demo](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
+
+## Installation
+
+Follow these steps to get your development environment running:
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/advanced-livewire-starter-kit.git
+   cd advanced-livewire-starter-kit
+   ```
+
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
+
+3. **Install JavaScript dependencies**
+   ```bash
+   npm install
+   ```
+
+4. **Configure environment variables**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+5. **Set up the database**
+   - Update database credentials in `.env` file
+   ```bash
+   php artisan migrate --seed
+   ```
+
+6. **Build assets**
+   ```bash
+   npm run dev
+   ```
+
+7. **Serve the application**
+   ```bash
+   php artisan serve
+   ```
+
+   Visit `http://localhost:8000` in your browser.
+
+## Default Login Credentials
+
+After seeding the database, you can log in with:
+- **Email**: test@example.com
+- **Password**: password
+
+## Features
+
+- **Authentication** - Full login/registration system
+- **Roles & Permissions** - Role-based access control
+- **Livewire Components** - Dynamic UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **Alpine.js** - Lightweight JavaScript framework
+
+## Technologies Used
+
+- Laravel 10
+- Livewire
+- Tailwind CSS
+- Alpine.js
+- Laravel Breeze
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
