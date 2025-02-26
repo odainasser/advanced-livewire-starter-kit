@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'role_id.required' => 'Please select a role.',
+            'role_id.required' => 'The role field is required.',
             'role_id.exists' => 'The selected role is invalid.',
         ];
     }
