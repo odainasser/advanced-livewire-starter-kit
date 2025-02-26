@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable // implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +24,7 @@ class User extends Authenticatable // implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -47,6 +50,22 @@ class User extends Authenticatable // implements MustVerifyEmail
         ];
     }
 
+    /**
+     * Get the role that owns the user.
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    
+    /**
+     * Check if the user has the given role.
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role && $this->role->name === $role;
+    }
+    
     /**
      * Get the user's initials
      */

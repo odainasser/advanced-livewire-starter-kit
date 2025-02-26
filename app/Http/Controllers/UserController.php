@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,14 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
+        
+        if ($request->has('trashed')) {
+            if ($request->trashed === 'only') {
+                $query->onlyTrashed();
+            } elseif ($request->trashed === 'with') {
+                $query->withTrashed();
+            }
+        }
         
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -27,7 +36,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     public function store(StoreUserRequest $request): RedirectResponse
@@ -38,7 +48,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'] ?? 'user',
+            'role_id' => $validated['role_id'] ?? Role::findByName('User')->id,
         ]);
 
         return redirect()
@@ -53,7 +63,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -63,7 +74,7 @@ class UserController extends Controller
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'role' => $validated['role'],
+            'role_id' => $validated['role_id'],
         ]);
 
         return redirect()
@@ -79,4 +90,15 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success', 'User deleted successfully');
     }
+    
+    public function restore($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User restored successfully');
+    }
+    
 }

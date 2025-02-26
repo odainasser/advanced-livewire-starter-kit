@@ -100,15 +100,17 @@
 
                         <!-- Role Field -->
                         <div>
-                            <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Role</label>
+                            <label for="role_id" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Role</label>
                             <div class="mt-1">
-                                <select name="role" 
-                                        id="role"
+                                <select name="role_id" 
+                                        id="role_id"
                                         class="block w-full rounded-md border-0 py-2.5 px-3 text-gray-900 dark:text-white dark:bg-zinc-800 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="">-- Select Role --</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ ucfirst($role->name) }}</option>
+                                    @endforeach
                                 </select>
-                                @error('role')
+                                @error('role_id')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
