@@ -27,7 +27,14 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($roles as $role) {
-            Role::create($role);
+            if (!Role::where('name', $role['name'])->exists()) {
+                Role::create($role);
+            } else {
+                Role::where('name', $role['name'])->update([
+                    'description' => $role['description'],
+                    'permissions' => $role['permissions'],
+                ]);
+            }
         }
     }
 }
