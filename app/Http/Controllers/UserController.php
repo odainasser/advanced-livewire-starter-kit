@@ -31,13 +31,13 @@ class UserController extends Controller
         
         $users = $query->paginate(10)->withQueryString();
         
-        return view('users.index', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        return view('admin.users.create', compact('roles'));
     }
 
     public function store(StoreUserRequest $request): RedirectResponse
@@ -52,19 +52,19 @@ class UserController extends Controller
         ]);
 
         return redirect()
-            ->route('users.index')
+            ->route('admin.users.index')
             ->with('success', 'User created successfully.');
     }
 
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('admin.users.show', compact('user'));
     }
 
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -78,7 +78,7 @@ class UserController extends Controller
         ]);
 
         return redirect()
-            ->route('users.index')
+            ->route('admin.users.index')
             ->with('success', 'User updated successfully');
     }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
         $user->delete();
         
         return redirect()
-            ->route('users.index')
+            ->route('admin.users.index')
             ->with('success', 'User deleted successfully');
     }
     
@@ -97,7 +97,7 @@ class UserController extends Controller
         $user->restore();
         
         return redirect()
-            ->route('users.index')
+            ->route('admin.users.index')
             ->with('success', 'User restored successfully');
     }
     

@@ -10,6 +10,6 @@ class DashboardController extends Controller
     public function index()
     {
         $usersCount = User::count();
-        return view('dashboard', compact('usersCount'));
+        return view('admin.dashboard', compact('usersCount'));
     }
 }
