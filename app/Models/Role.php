@@ -25,9 +25,9 @@ class Role extends Model
      * Default available permissions in the application
      */
     public static $availablePermissions = [
-        'users' => 'users module',
-        'roles' => ' roles module',
-        'dashboard' => 'dashboard module',
+        'users',
+        'roles',
+        'dashboard',
     ];
 
     /**

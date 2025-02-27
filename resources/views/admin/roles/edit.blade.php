@@ -6,9 +6,9 @@
                 <div class="px-8 py-6 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Create New Role</h2>
+                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Edit Role: {{ $role->name }}</h2>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                Add a new role to the system
+                                Update role details and permissions
                             </p>
                         </div>
                         <a href="{{ route('roles.index') }}" 
@@ -22,8 +22,9 @@
                 </div>
 
                 <!-- Form Section -->
-                <form action="{{ route('roles.store') }}" method="POST">
+                <form action="{{ route('roles.update', $role) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     
                     <!-- Error Messages -->
                     @if ($errors->any())
@@ -50,7 +51,7 @@
                                 <input type="text" 
                                        name="name" 
                                        id="name"
-                                       value="{{ old('name') }}" 
+                                       value="{{ old('name', $role->name) }}" 
                                        class="block w-full rounded-md border-0 py-2.5 px-3 text-gray-900 dark:text-white dark:bg-zinc-800 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
                                 @error('name')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -66,7 +67,7 @@
                                        name="description" 
                                        id="description"
                                        rows="3"
-                                       class="block w-full rounded-md border-0 py-2.5 px-3 text-gray-900 dark:text-white dark:bg-zinc-800 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">{{ old('description') }}</textarea>
+                                       class="block w-full rounded-md border-0 py-2.5 px-3 text-gray-900 dark:text-white dark:bg-zinc-800 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">{{ old('description', $role->description) }}</textarea>
                                 @error('description')
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
@@ -88,7 +89,7 @@
                                     @foreach($permissions as $permission)
                                         <label class="flex items-center space-x-3 cursor-pointer">
                                             <input type="checkbox" name="permissions[]" value="{{ $permission }}" 
-                                                {{ in_array($permission, old('permissions', [])) ? 'checked' : '' }}
+                                                {{ in_array($permission, old('permissions', $role->permissions ?? [])) ? 'checked' : '' }}
                                                 class="permission-checkbox w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 dark:bg-zinc-800 dark:border-zinc-700">
                                             <span class="text-sm text-gray-700 dark:text-gray-300">
                                                 {{ ucfirst($permission) }}
@@ -107,11 +108,11 @@
                     <div class="px-8 py-6 bg-gray-50 dark:bg-zinc-800/50 border-t border-gray-200 dark:border-gray-700">
                         <div class="flex justify-end">
                             <button type="submit" 
-                                    class="inline-flex items-center gap-x-2 rounded-md bg-green-50 px-3 py-2 text-sm font-semibold text-green-700 ring-1 ring-inset ring-green-600/10 hover:bg-green-100 dark:bg-green-400/10 dark:text-green-400 dark:ring-green-400/20 dark:hover:bg-green-400/20">
+                                    class="inline-flex items-center gap-x-2 rounded-md bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 ring-1 ring-inset ring-blue-600/10 hover:bg-blue-100 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/20 dark:hover:bg-blue-400/20">
                                 <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                    <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
                                 </svg>
-                                Create Role
+                                Update Role
                             </button>
                         </div>
                     </div>
@@ -124,6 +125,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             const selectAllCheckbox = document.getElementById('select-all');
             const permissionCheckboxes = document.querySelectorAll('.permission-checkbox');
+
+            // Set initial state of select all checkbox
+            function setInitialSelectAllState() {
+                let allChecked = true;
+                permissionCheckboxes.forEach(checkbox => {
+                    if (!checkbox.checked) {
+                        allChecked = false;
+                    }
+                });
+                selectAllCheckbox.checked = allChecked;
+            }
+            
+            setInitialSelectAllState();
 
             selectAllCheckbox.addEventListener('change', function() {
                 permissionCheckboxes.forEach(checkbox => {

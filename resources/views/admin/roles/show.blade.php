@@ -27,91 +27,88 @@
                         <div class="border-t border-gray-200 dark:border-gray-700">
                             <dl>
                                 <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
-                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Name</dt>
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Role name</dt>
                                     <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
                                         {{ $role->name }}
                                     </dd>
                                 </div>
+                                
+                                @if($role->description)
                                 <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Description</dt>
                                     <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
                                         {{ $role->description }}
                                     </dd>
                                 </div>
+                                @endif
+                                
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Permissions</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        @if($role->permissions && count($role->permissions) > 0)
+                                            <div class="flex flex-wrap gap-2">
+                                                @foreach($role->permissions as $permission)
+                                                    <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
+                                                        {{ ucfirst($permission) }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <span class="text-gray-500 dark:text-gray-400">No permissions assigned</span>
+                                        @endif
+                                    </dd>
+                                </div>
+                                
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Users count</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        {{ $role->users_count ?? $role->users()->count() }}
+                                    </dd>
+                                </div>
+                                
                                 <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
                                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Created</dt>
                                     <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
                                         {{ $role->created_at->format('F j, Y') }}
                                     </dd>
                                 </div>
+                                
                                 <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Last updated</dt>
                                     <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
                                         {{ $role->updated_at->format('F j, Y') }}
                                     </dd>
                                 </div>
-                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
-                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Users Count</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                        {{ $role->users->count() }}
-                                    </dd>
-                                </div>
                             </dl>
                         </div>
                     </div>
 
-                    <!-- Permissions Section -->
-                    <div class="mt-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Permissions</h3>
-                        <div class="mt-3">
-                            @if(count($role->permissions))
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                    @foreach($role->permissions as $permission)
-                                        <div class="bg-blue-50 dark:bg-blue-900/20 px-3 py-2 rounded-md text-sm text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-400/30">
-                                            {{ $permission }}
-                                        </div>
+                    <!-- Users with this role section -->
+                    @if(isset($role->users) && $role->users->count() > 0)
+                        <div class="mt-8">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Users with this role</h3>
+                            <div class="bg-white dark:bg-zinc-800 shadow overflow-hidden sm:rounded-md">
+                                <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    @foreach($role->users as $user)
+                                        <li>
+                                            <div class="px-4 py-4 flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <div class="ml-3">
+                                                        <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</p>
+                                                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ $user->email }}</p>
+                                                    </div>
+                                                </div>
+                                                <a href="{{ route('users.show', $user) }}" 
+                                                   class="text-sm text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                                    View profile
+                                                </a>
+                                            </div>
+                                        </li>
                                     @endforeach
-                                </div>
-                            @else
-                                <p class="text-sm text-gray-500 dark:text-gray-400">No permissions assigned to this role.</p>
-                            @endif
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Users with this Role Section -->
-                    <div class="mt-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Users with this Role</h3>
-                        <div class="mt-3">
-                            @if($role->users->count())
-                                <div class="overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                        <thead class="bg-gray-50 dark:bg-zinc-800">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joined</th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-gray-700">
-                                            @foreach($role->users as $user)
-                                                <tr>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->created_at->format('M d, Y') }}</td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <a href="{{ route('users.show', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">View</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @else
-                                <p class="text-sm text-gray-500 dark:text-gray-400">No users assigned to this role.</p>
-                            @endif
-                        </div>
-                    </div>
+                    @endif
 
                     <!-- Action Buttons -->
                     <div class="mt-6 flex gap-4">

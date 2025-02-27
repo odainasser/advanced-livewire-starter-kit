@@ -3,11 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
+    /**
+     * Default available permissions in the application
+     */
+    public static $availablePermissions = [
+        'users',
+        'roles',
+        'dashboard',
+    ];
+    
     /**
      * Display a listing of the roles.
      *
@@ -15,7 +27,6 @@ class RoleController extends Controller
      */
     public function index()
     {
-        
         $roles = Role::withCount('users')->paginate(10);
         return view('admin.roles.index', compact('roles'));
     }
@@ -27,9 +38,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        
-        $permissions = Role::$availablePermissions;
-
+        $permissions = self::$availablePermissions;
         return view('admin.roles.create', compact('permissions'));
     }
 
@@ -39,19 +48,16 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:roles'],
-            'description' => ['required', 'string', 'max:255'],
-            'permissions' => ['required', 'array'],
-            'permissions.*' => [Rule::in(array_keys(Role::$availablePermissions))],
-        ]);
-
-        Role::create($validated);
-        
-        return redirect()->route('admin.roles.index')
+            $role = Role::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'permissions' => $request->permissions,
+            ]);
+            $role->save();
+   
+        return redirect()->route('roles.index')
             ->with('success', 'Role created successfully.');
     }
 
@@ -63,9 +69,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        
         $role->loadCount('users');
-        
         return view('admin.roles.show', compact('role'));
     }
 
@@ -77,10 +81,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        
-        $availablePermissions = Role::$availablePermissions;
-        
-        return view('admin.roles.edit', compact('role', 'availablePermissions'));
+        $permissions = self::$availablePermissions;
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -90,19 +92,15 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
-        
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('roles')->ignore($role->id)],
-            'description' => ['required', 'string', 'max:255'],
-            'permissions' => ['required', 'array'],
-            'permissions.*' => [Rule::in(array_keys(Role::$availablePermissions))],
+        $role->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'permissions'  => $request->permissions,
         ]);
 
-        $role->update($validated);
-        
-        return redirect()->route('admin.roles.index')
+        return redirect()->route('roles.index')
             ->with('success', 'Role updated successfully.');
     }
 
@@ -114,15 +112,13 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        
-        // Check if role is being used by any user
         if ($role->users()->count() > 0) {
             return back()->with('error', 'Cannot delete role that is assigned to users.');
         }
         
         $role->delete();
         
-        return redirect()->route('admin.roles.index')
+        return redirect()->route('roles.index')
             ->with('success', 'Role deleted successfully.');
     }
 }

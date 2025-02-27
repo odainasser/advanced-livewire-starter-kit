@@ -74,7 +74,7 @@
                                                         {{ $role->name }}
                                                     </td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                                                        @if(count($role->permissions) > 0)
+                                                        @if($role->permissions && count($role->permissions) > 0)
                                                             <div class="flex flex-wrap gap-1">
                                                                 @foreach(collect($role->permissions)->take(3) as $permission)
                                                                     <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
