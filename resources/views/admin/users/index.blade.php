@@ -68,6 +68,7 @@
                                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead class="bg-gray-50 dark:bg-zinc-800">
                                             <tr>
+                                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">#</th>
                                                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">Name</th>
                                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">Email</th>
                                                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">Role</th>
@@ -77,8 +78,11 @@
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-zinc-900">
-                                            @foreach($users as $user)
+                                            @foreach($users as $index => $user)
                                                 <tr>
+                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:pl-6">
+                                                        {{ $users->firstItem() + $index }}
+                                                    </td>
                                                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-white sm:pl-6">
                                                         {{ $user->name }}
                                                     </td>
@@ -86,7 +90,14 @@
                                                         {{ $user->email }}
                                                     </td>
                                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                                                        {{ $user->role->name ?? 'N/A' }}
+                                                        @if($user->role)
+                                                            <a href="{{ route('roles.show', $user->role) }}" 
+                                                               class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">
+                                                                {{ $user->role->name }}
+                                                            </a>
+                                                        @else
+                                                            N/A
+                                                        @endif
                                                     </td>
                                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                         <div class="flex justify-end gap-2">
