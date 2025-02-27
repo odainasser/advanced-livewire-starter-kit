@@ -9,13 +9,11 @@
 
 # Advanced Livewire Starter Kit
 
-A modern Laravel application starter kit featuring Laravel Livewire, Tailwind CSS, and Alpine.js.
-
-[![Demo](https://img.shields.io/badge/Demo-View%20Live-blue)](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
+A modern Laravel application starter kit, featuring [the original Laravel Livewire starter kit](https://github.com/laravel/livewire-starter-kit).
 
 ## Demo
 
-Check out the live demo: [Advanced Livewire Starter Kit Demo](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
+Check out the live demo: [![Demo](https://img.shields.io/badge/Demo-View%20Live-blue)](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
 
 ## Installation
 
@@ -74,7 +72,3 @@ After seeding the database, you can log in with:
 - **Livewire Components** - Dynamic UI components
 - **Tailwind CSS** - Utility-first CSS framework
 - **Alpine.js** - Lightweight JavaScript framework
-
-## License
-
-The Advanced Livewire Starter Kit is open-sourced software licensed under the [MIT license](LICENSE).
