@@ -13,7 +13,7 @@ A modern Laravel application starter kit, featuring [the original Laravel Livewi
 
 ## Demo
 
-Check out the live demo: [![Demo](https://img.shields.io/badge/Demo-View%20Live-blue)](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
+[![Demo](https://img.shields.io/badge/Demo-View%20Live-blue)](https://advanced-livewire-starter-kit-main-jzkwod.laravel.cloud/)
 
 ## Installation
 
