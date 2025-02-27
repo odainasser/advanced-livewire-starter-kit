@@ -4,11 +4,17 @@
             <div class="overflow-hidden bg-white shadow-sm dark:bg-zinc-900 sm:rounded-lg border border-gray-200 dark:border-gray-700">
                 <div class="p-6">
                     <!-- Header Section -->
-                    <div class="flex items-center justify-between mb-6">
-                        <h1 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Role Details: {{ $role->name }}</h1>
-                        <div class="flex items-center space-x-3">
-                            <a href="{{ route('roles.index') }}" class="inline-flex items-center gap-x-2 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-100 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700 dark:hover:bg-zinc-700">
-                                <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <div class="sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Role Details</h2>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                Detailed information about {{ $role->name }}
+                            </p>
+                        </div>
+                        <div class="mt-4 sm:mt-0">
+                            <a href="{{ route('roles.index') }}" 
+                               class="inline-flex items-center gap-x-2 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-200 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700">
+                                <svg class="h-5 w-5 -ml-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
                                 </svg>
                                 Back to Roles
@@ -16,87 +22,118 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Role Info Card -->
-                        <div class="col-span-1 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow">
-                            <div class="p-5 border-b border-gray-200 dark:border-gray-700">
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Role Information</h2>
-                            </div>
-                            <div class="p-5 space-y-4">
-                                <div>
-                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h3>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $role->name }}</p>
+                    <!-- Role Information Card -->
+                    <div class="mt-6 overflow-hidden bg-white dark:bg-zinc-800 shadow sm:rounded-lg">
+                        <div class="border-t border-gray-200 dark:border-gray-700">
+                            <dl>
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Name</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        {{ $role->name }}
+                                    </dd>
                                 </div>
-                                <div>
-                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Description</h3>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $role->description }}</p>
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Description</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        {{ $role->description }}
+                                    </dd>
                                 </div>
-                                <div>
-                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Created</h3>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $role->created_at->format('M d, Y H:i') }}</p>
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Created</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        {{ $role->created_at->format('F j, Y') }}
+                                    </dd>
                                 </div>
-                                <div>
-                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Users Count</h3>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $role->users->count() }}</p>
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Last updated</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        {{ $role->updated_at->format('F j, Y') }}
+                                    </dd>
                                 </div>
-                            </div>
+                                <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50 dark:bg-zinc-900">
+                                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Users Count</dt>
+                                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                        {{ $role->users->count() }}
+                                    </dd>
+                                </div>
+                            </dl>
                         </div>
+                    </div>
 
-                        <!-- Permissions Card -->
-                        <div class="col-span-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow">
-                            <div class="p-5 border-b border-gray-200 dark:border-gray-700">
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Permissions</h2>
-                            </div>
-                            <div class="p-5">
-                                @if(count($role->permissions))
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                        @foreach($role->permissions as $permission)
-                                            <div class="bg-blue-50 dark:bg-blue-900/20 px-3 py-2 rounded-md text-sm text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-400/30">
-                                                {{ $permission }}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">No permissions assigned to this role.</p>
-                                @endif
-                            </div>
+                    <!-- Permissions Section -->
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Permissions</h3>
+                        <div class="mt-3">
+                            @if(count($role->permissions))
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    @foreach($role->permissions as $permission)
+                                        <div class="bg-blue-50 dark:bg-blue-900/20 px-3 py-2 rounded-md text-sm text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-400/30">
+                                            {{ $permission }}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p class="text-sm text-gray-500 dark:text-gray-400">No permissions assigned to this role.</p>
+                            @endif
                         </div>
+                    </div>
 
-                        <!-- Users Card -->
-                        <div class="col-span-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow">
-                            <div class="p-5 border-b border-gray-200 dark:border-gray-700">
-                                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Users with this Role</h2>
-                            </div>
-                            <div class="p-5">
-                                @if($role->users->count())
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                            <thead class="bg-gray-50 dark:bg-zinc-800">
+                    <!-- Users with this Role Section -->
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Users with this Role</h3>
+                        <div class="mt-3">
+                            @if($role->users->count())
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead class="bg-gray-50 dark:bg-zinc-800">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joined</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-gray-700">
+                                            @foreach($role->users as $user)
                                                 <tr>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joined</th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->created_at->format('M d, Y') }}</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                        <a href="{{ route('users.show', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">View</a>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-gray-700">
-                                                @foreach($role->users as $user)
-                                                    <tr>
-                                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $user->created_at->format('M d, Y') }}</td>
-                                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                            <a href="{{ route('users.show', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">View</a>                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                @else
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">No users assigned to this role.</p>
-                                @endif
-                            </div>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p class="text-sm text-gray-500 dark:text-gray-400">No users assigned to this role.</p>
+                            @endif
                         </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="mt-6 flex gap-4">
+                        <a href="{{ route('roles.edit', $role) }}" 
+                           class="inline-flex items-center gap-x-2 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-100 dark:bg-zinc-800 dark:text-white dark:ring-zinc-700 dark:hover:bg-zinc-700">
+                            <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"/>
+                            </svg>
+                            Edit
+                        </a>
+                        <form action="{{ route('roles.destroy', $role) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                    onclick="return confirm('Are you sure you want to delete this role?')"
+                                    class="inline-flex items-center gap-x-2 rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 ring-1 ring-inset ring-red-600/10 hover:bg-red-100 dark:bg-red-400/10 dark:text-red-400 dark:ring-red-400/20 dark:hover:bg-red-400/20">
+                                <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                                </svg>
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
