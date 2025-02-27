@@ -52,7 +52,7 @@ class UserController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'User created successfully.');
     }
 
@@ -78,7 +78,7 @@ class UserController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'User updated successfully');
     }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
         $user->delete();
         
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'User deleted successfully');
     }
     
@@ -97,7 +97,7 @@ class UserController extends Controller
         $user->restore();
         
         return redirect()
-            ->route('admin.users.index')
+            ->route('users.index')
             ->with('success', 'User restored successfully');
     }
     
